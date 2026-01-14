@@ -1,11 +1,11 @@
-FROM golang:1.20-bullseye AS builder
+FROM golang:1.24-bookworm AS builder
 COPY . /src
 RUN set -eu \
     && cd /src \
     && apt-get install -y make \
     && make build
 
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 COPY --from=builder /src/rescue-api /app/rescue-api
 RUN set -eu \
     && apt-get update \

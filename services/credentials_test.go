@@ -215,6 +215,13 @@ func TestCreateCredentialRequests(t *testing.T) {
 		t.Fatalf("Could not sign message: %v", err)
 	}
 
+	// Future timestamp.
+	futureMsg := []byte("Rescue Node 13569465600")
+	futureMsgSig, err := node.Sign(futureMsg)
+	if err != nil {
+		t.Fatalf("Could not sign message: %v", err)
+	}
+
 	// Request from a node not part of Rocket Pool.
 	otherNode, err := createTestNode(svc, false)
 	if err != nil {
@@ -243,6 +250,7 @@ func TestCreateCredentialRequests(t *testing.T) {
 		{"invalid_signature", msg, invalidSig, *node.Address, pb.OperatorType_OT_ROCKETPOOL, &AuthenticationError{}},
 		{"malformed_message", badMsg, badMsgSig, *node.Address, pb.OperatorType_OT_ROCKETPOOL, &ValidationError{}},
 		{"expired_timestamp", oldMsg, oldMsgSig, *node.Address, pb.OperatorType_OT_ROCKETPOOL, &ValidationError{}},
+		{"future_timestamp", futureMsg, futureMsgSig, *node.Address, pb.OperatorType_OT_ROCKETPOOL, &ValidationError{}},
 		{"empty_message", []byte{}, sig, *node.Address, pb.OperatorType_OT_ROCKETPOOL, &ValidationError{}},
 		{"empty_signature", msg, []byte{}, *node.Address, pb.OperatorType_OT_ROCKETPOOL, &AuthenticationError{}},
 		{"unknown_node", otherMsg, otherSig, *otherNode.Address, pb.OperatorType_OT_ROCKETPOOL, &AuthorizationError{}},

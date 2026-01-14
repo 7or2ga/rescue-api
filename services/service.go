@@ -287,6 +287,11 @@ func (s *Service) checkRequestAge(msg *[]byte) error {
 		return &AuthenticationError{"timestamp is too old"}
 	}
 
+	if time.Until(ts) > credsRequestMaxAge {
+		s.m.Counter("timestamp_too_old").Inc() // Too lazy to update metric name, please don't change it
+		return &AuthenticationError{"timestamp is from too far in the future"}
+	}
+
 	return nil
 }
 

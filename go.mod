@@ -7,7 +7,7 @@ require (
 	github.com/Rocket-Rescue-Node/rescue-proxy v1.2.3
 	github.com/ethereum/go-ethereum v1.13.5
 	github.com/gorilla/mux v1.8.1
-	github.com/jonboulle/clockwork v0.4.0
+	github.com/jonboulle/clockwork v0.5.0
 	github.com/mattn/go-sqlite3 v1.14.18
 	github.com/rs/cors v1.10.1
 	github.com/stretchr/testify v1.8.4
